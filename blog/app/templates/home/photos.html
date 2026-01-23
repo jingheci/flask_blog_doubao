@@ -1,0 +1,28 @@
+{% extends "home/base.html" %}
+
+{% block title %}相册_个人博客{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <script src="/static/home/js/scrollReveal.js"></script>
+{% endblock %}
+
+{% block content %}
+<article>
+    <div class="picbox">
+        {% for photo in photo_list %}
+        <ul>
+            <li data-scroll-reveal="enter bottom over 1s">
+                <a href="#">
+                    <i><img src="{{ photo.image_url }}"></i>
+                    <div class="picinfo">
+                        <h3>{{ photo.title }}</h3>
+                        <span>{{ photo.description }}</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        {% endfor %}
+    </div>
+</article>
+{% endblock %}

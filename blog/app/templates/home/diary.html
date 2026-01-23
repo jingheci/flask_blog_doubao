@@ -1,0 +1,47 @@
+{% extends "/home/base.html" %}
+
+{% block content %}
+<article>
+    <aside class="l_box">
+        <div class="search">
+            <form action="" method="post" name="searchform" id="searchform">
+                <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词"
+                       style="color: rgb(153, 153, 153);"
+                       onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}"
+                       onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+                <input name="show" value="title" type="hidden">
+                <input name="tempid" value="1" type="hidden">
+                <input name="tbname" value="news" type="hidden">
+                <input name="Submit" class="input_submit" value="搜索" type="button">
+            </form>
+        </div>
+        <div class="fenlei">
+            <h2>文章分类</h2>
+            <ul>
+                <li><a href="#">分类1</a></li>
+                <li><a href="#">分类2</a></li>
+                <li><a href="#">分类3</a></li>
+                <li><a href="#">分类4</a></li>
+            </ul>
+        </div>
+        <div class="guanzhu">
+            <h2>关注我 iKun</h2>
+            <ul>
+                <img src="/static/home/images/wx.jpg">
+            </ul>
+        </div>
+    </aside>
+    <main class="r_box">
+        <ul>
+            {% for diary in diaries %}
+               <li>
+                    <i><a href="#"><img src=""></a></i>
+                    <h3><a href="#"> {{diary.title}}</a></h3>
+                    <p> {{diary.content}} </p>
+                </li>
+            {% endfor %}
+        </ul>
+    </main>
+</article>
+
+{% endblock %}
