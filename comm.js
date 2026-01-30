@@ -1,0 +1,148 @@
+$(document).ready(function () {
+        //nav
+        $("#mnavh").click(function(){
+            $("#starlist").toggle();
+            $("#mnavh").toggleClass("open");
+        });
+	  
+    var obj=null;
+    var As=document.getElementById('starlist').getElementsByTagName('a');
+    obj = As[0];
+    for(i=1;i<As.length;i++){if(window.location.href.indexOf(As[i].href)>=0)
+    obj=As[i];}
+    obj.id='selected';
+
+	
+  
+	var new_scroll_position = 0;
+	var last_scroll_position;
+	var header = document.getElementById("header");
+
+	window.addEventListener('scroll', function(e) {
+	  last_scroll_position = window.scrollY;
+
+	  // Scrolling down
+	  if (new_scroll_position < last_scroll_position && last_scroll_position > 80) {
+		// header.removeClass('slideDown').addClass('slideUp');
+		header.classList.remove("slideDown");
+		header.classList.add("slideUp");
+
+	  // Scrolling up
+	  } else if (new_scroll_position > last_scroll_position) {
+		// header.removeClass('slideUp').addClass('slideDown');
+		header.classList.remove("slideUp");
+		header.classList.add("slideDown");
+	  }
+
+	  new_scroll_position = last_scroll_position;
+	});
+	
+	
+	//返回顶部
+    // browser window scroll (in pixels) after which the "back to top" link is shown
+    var offset = 300,
+        //browser window scroll (in pixels) after which the "back to top" link opacity is reduced
+        offset_opacity = 1200,
+        //duration of the top scrolling animation (in ms)
+        scroll_top_duration = 700,
+        //grab the "back to top" link
+        $back_to_top = $('.cd-top');
+
+    //hide or show the "back to top" link
+    $(window).scroll(function () {
+        ($(this).scrollTop() > offset) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
+        if ($(this).scrollTop() > offset_opacity) {
+            $back_to_top.addClass('cd-fade-out');
+        }
+    });
+    //smooth scroll to top
+    $back_to_top.on('click', function (event) {
+        event.preventDefault();
+        $('body,html').animate({
+                scrollTop: 0,
+            }, scroll_top_duration
+        );
+    });
+
+    //首页搜索
+    $("#SubmitBtn").click(function(){
+        var keyword = $("#keyboard").val();
+        $.ajax({
+            url: '/search_article',
+            type: 'GET',
+            data: { keyword: keyword },
+            success: function(articles) {
+                console.log('Success:', articles);
+                if(articles && articles.length > 0){
+                    const $ul = $('.r_box ul');
+                    $ul.empty();
+
+                    // 使用抽取的方法生成内容
+                    articles.forEach(article => {
+                        const $articleItem = createArticleItem(article);
+                        $ul.append($articleItem);
+                    });
+                }else{
+                    const $ul = $('.r_box ul');
+                    $ul.empty();
+                    $ul.append('<li style="text-align:center; padding:2rem; color:#999;">没有找到相关文章</li>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+     });
+
+
+
+
+
+	
+});
+
+
+//点击分类
+function searchByCategory(cateId){
+    var keyword = $("#keyboard").val();
+    $.ajax({
+        url: '/search_article',
+        type: 'GET',
+        data: { keyword: keyword,cateId:cateId },
+        success: function(articles) {
+              console.log('Success:', articles);
+              if(articles && articles.length > 0){
+                    const $ul = $('.r_box ul');
+                    $ul.empty();
+                    // 使用抽取的方法生成内容
+                    articles.forEach(article => {
+                        const $articleItem = createArticleItem(article);
+                        $ul.append($articleItem);
+                    });
+              }else{
+                    const $ul = $('.r_box ul');
+                    $ul.empty();
+                }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
+}
+
+
+// 抽取的HTML生成方法
+function createArticleItem(article) {
+    const $li = $('<li>');
+    const $i = $('<i>').append(
+        $('<a>').attr('href', '#').append(
+            $('<img>').attr('src', article.image || '') // 假设article对象包含image字段
+        )
+    );
+    const $h3 = $('<h3>').append(
+        $('<a>').attr('href', `/article/${article.id}`).text(article.title)
+    );
+    const $p = $('<p>').text(article.content);
+
+    return $li.append($i, $h3, $p);
+}
