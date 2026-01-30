@@ -1,0 +1,239 @@
+{% extends "home/base.html" %}
+
+{% block title %}关于我_个人博客{% endblock %}
+
+{% block content %}
+<article>
+    <aside class="l_box">
+        <div class="about_me">
+            <h2>关于我</h2>
+            <ul>
+                <i><img src="/static/home/images/4.jpg"></i>
+                <p>
+                    <b>iKun</b>，一个90后草根站长！18年入行。
+                    一直潜心研究web技术，一边工作一边积累经验，
+                    分享个人博客，以及打篮球的心得。
+                </p>
+            </ul>
+        </div>
+        <div class="wdxc">
+            <h2>我的相册</h2>
+            <ul>
+                <li><a href="#"><img src="/static/home/images/1.jpg"></a></li>
+                <li><a href="#"><img src="/static/home/images/2.jpg"></a></li>
+                <li><a href="#"><img src="/static/home/images/3.jpg"></a></li>
+                <li><a href="#"><img src="/static/home/images/4.jpg"></a></li>
+                <li><a href="#"><img src="/static/home/images/5.jpg"></a></li>
+                <li><a href="#"><img src="/static/home/images/6.jpg"></a></li>
+            </ul>
+        </div>
+        <div class="search">
+            <form action="" method="post" name="searchform" id="searchform">
+                <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词"
+                       style="color: rgb(153, 153, 153);"
+                       onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}"
+                       onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
+                <input name="show" value="title" type="hidden">
+                <input name="tempid" value="1" type="hidden">
+                <input name="tbname" value="news" type="hidden">
+                <input name="Submit" class="input_submit" value="搜索" type="button">
+            </form>
+        </div>
+        <div class="fenlei">
+            <h2>文章分类</h2>
+            <ul>
+                {% for category in category_list %}
+                    <li><a href="#">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="guanzhu">
+            <h2>关注我 iKun</h2>
+            <ul>
+                <img src="/static/home/images/wx.jpg">
+            </ul>
+        </div>
+    </aside>
+    <main class="r_box">
+        <div class="about">
+            <p> iKun，一个90后草根站长！18年入行。一直潜心研究web技术，一边工作一边积累经验，
+                分享一些个人博客模板，以及Flask优化等心得。我入行早，大家也亲切的叫我&ldquo;kun哥&rdquo;。<br/>
+                <br/>
+                Flask奋斗了将近两年时间，个人博客网站百度排名也从之前的30页后，排到了第一页。
+                期间有很多的不容易，但是都没有放弃过。入了这一行，就深深的喜欢上它。
+                我喜欢一句话&ldquo;冥冥中该来则来，无处可逃&rdquo;。<br/>
+                <br/>
+                <img src="/static/home/images/8.jpg">
+                近几年我也发现个人博客排前几页的也有很多是我做过的Flask，感谢各位站长的欣赏，
+                我仔细看过他们的网站。他们在我原Flask的基础上有修改，而且他们做的原创内容都是值得一读的。
+                有时候甚至排名都超过了我个人博客网站的排名。<br/>
+                <br/>
+                现在很多人向我请教如何做好Flask，我想说的是，一是&ldquo;代码&rdquo;，一定要简单，布局要合理。
+                二是&ldquo;内容&rdquo;，一定要有原创，伪原创也是可以的。三是&ldquo;持续&rdquo;，这是一个持续性过程，一定要有耐心，
+                Flask不是马上生效的。<br/>
+                <br/>
+                自从入了这一行，也交到了不少朋友，QQ群也不断的壮大起来，群里的小伙伴们也很积极的帮助新朋友解决问题，
+                如果你想加入我们，这个大家庭的门，永远给你敞开！接受群主邀请
+            </p>
+            <br/>
+            <br/>
+            Flask奋斗了将近两年时间，个人博客网站百度排名也从之前的30页后，排到了第一页。期间有很多的不容易，
+            但是都没有放弃过。入了这一行，就深深的喜欢上它。我喜欢一句话&ldquo;冥冥中该来则来，无处可逃&rdquo;。<br/>
+            <br/>
+            <img src="/static/home/images/1.jpg">
+            近几年我也发现个人博客排前几页的也有很多是我做过的Flask，感谢各位站长的欣赏，我仔细看过他们的网站。</p>
+            <br/>
+            <h2>我的技能</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <canvas id="skillRadar" width="400" height="400" style="border: 1px solid #ccc;"></canvas>
+            </div>
+            <h2>About my blog</h2>
+        </div>
+    </main>
+</article>
+
+<script>
+// 确保页面完全加载后再执行
+$(document).ready(function() {
+    // 初始化雷达图
+    const canvas = document.getElementById('skillRadar');
+    if (!canvas) {
+        console.error('Canvas element not found');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Canvas context not supported');
+        return;
+    }
+    
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 150;
+    
+    // 技能名称和熟练度
+    const skills = [
+        { name: 'Python', value: 0.9 },
+        { name: 'Flask', value: 0.85 },
+        { name: 'HTML', value: 0.95 },
+        { name: 'CSS', value: 0.9 },
+        { name: 'JS', value: 0.8 },
+        { name: 'SQL', value: 0.75 }
+    ];
+    
+    // 绘制六边形网格
+    function drawHexagonGrid() {
+        ctx.strokeStyle = '#ccc';
+        ctx.lineWidth = 1;
+        
+        for (let r = radius / 4; r <= radius; r += radius / 4) {
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = (Math.PI / 3) * i - Math.PI / 6;
+                const x = centerX + r * Math.cos(angle);
+                const y = centerY + r * Math.sin(angle);
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.closePath();
+            ctx.stroke();
+        }
+        
+        // 绘制轴线
+        ctx.strokeStyle = '#999';
+        for (let i = 0; i < 6; i++) {
+            const angle = (Math.PI / 3) * i - Math.PI / 6;
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            
+            // 绘制技能名称
+            ctx.fillStyle = '#333';
+            ctx.font = '14px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            const textX = centerX + (radius + 20) * Math.cos(angle);
+            const textY = centerY + (radius + 20) * Math.sin(angle);
+            ctx.fillText(skills[i].name, textX, textY);
+        }
+    }
+    
+    // 绘制技能雷达图（描边动画）
+    function drawSkillRadar(currentIndex, progress) {
+        ctx.beginPath();
+        for (let i = 0; i <= currentIndex; i++) {
+            const angle = (Math.PI / 3) * i - Math.PI / 6;
+            const skillValue = skills[i].value;
+            const x = centerX + radius * skillValue * Math.cos(angle);
+            const y = centerY + radius * skillValue * Math.sin(angle);
+            if (i === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        }
+        
+        // 绘制当前边的动画
+        if (currentIndex < 6) {
+            const currentAngle = (Math.PI / 3) * currentIndex - Math.PI / 6;
+            const nextAngle = (Math.PI / 3) * (currentIndex + 1) - Math.PI / 6;
+            const currentSkillValue = skills[currentIndex].value;
+            const nextSkillValue = skills[(currentIndex + 1) % 6].value;
+            
+            const currentX = centerX + radius * currentSkillValue * Math.cos(currentAngle);
+            const currentY = centerY + radius * currentSkillValue * Math.sin(currentAngle);
+            const nextX = centerX + radius * nextSkillValue * Math.cos(nextAngle);
+            const nextY = centerY + radius * nextSkillValue * Math.sin(nextAngle);
+            
+            const animatedX = currentX + (nextX - currentX) * progress;
+            const animatedY = currentY + (nextY - currentY) * progress;
+            
+            ctx.lineTo(animatedX, animatedY);
+        }
+        
+        ctx.strokeStyle = '#3498db';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // 绘制已完成的数据点
+        for (let i = 0; i <= currentIndex; i++) {
+            const angle = (Math.PI / 3) * i - Math.PI / 6;
+            const skillValue = skills[i].value;
+            const x = centerX + radius * skillValue * Math.cos(angle);
+            const y = centerY + radius * skillValue * Math.sin(angle);
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#e74c3c';
+            ctx.fill();
+        }
+    }
+    
+    // 描边动画效果
+    let currentIndex = 0;
+    let progress = 0;
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawHexagonGrid();
+        drawSkillRadar(currentIndex, progress);
+        
+        if (currentIndex < 6) {
+            progress += 0.02;
+            if (progress >= 1) {
+                progress = 0;
+                currentIndex++;
+            }
+            requestAnimationFrame(animate);
+        }
+    }
+    
+    drawHexagonGrid();
+    animate();
+});
+{% endblock %}
